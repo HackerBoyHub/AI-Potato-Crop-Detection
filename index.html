@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Potato Leaf Disease Detection</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    linear-gradient(rgba(0,30,20,.80),rgba(0,30,20,.90)),
+    url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1600&q=80");
+
+    background-size:cover;
+    background-position:center;
+}
+
+.container{
+
+    width:550px;
+    padding:40px;
+
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+
+    border-radius:25px;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    color:white;
+
+    text-align:center;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.4);
+
+}
+
+.logo{
+    font-size:60px;
+}
+
+h1{
+
+    margin-top:10px;
+    font-size:38px;
+
+}
+
+.subtitle{
+
+    color:#ddd;
+    margin-top:10px;
+    margin-bottom:30px;
+
+}
+
+.upload{
+
+    width:100%;
+    height:180px;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    border:2px dashed rgba(255,255,255,.4);
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.upload:hover{
+
+    border-color:#00ff99;
+
+    background:rgba(255,255,255,.05);
+
+}
+
+.upload-icon{
+
+    font-size:60px;
+    margin-bottom:10px;
+
+}
+
+.upload p{
+
+    font-size:18px;
+    font-weight:500;
+
+}
+
+.upload small{
+
+    margin-top:8px;
+    color:#cfcfcf;
+
+}
+
+input[type=file]{
+
+    display:none;
+
+}
+
+.filename{
+
+    margin-top:15px;
+
+    color:#00ff99;
+
+    font-size:15px;
+
+}
+
+.button{
+
+    width:100%;
+
+    margin-top:30px;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:#00d95f;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.button:hover{
+
+    background:#00b34c;
+
+}
+
+.result{
+
+    margin-top:30px;
+
+    background:rgba(255,255,255,.08);
+
+    padding:20px;
+
+    border-radius:15px;
+
+}
+
+.result h2{
+
+    color:#00ff99;
+
+}
+
+.progress{
+
+    margin-top:15px;
+
+    height:12px;
+
+    width:100%;
+
+    background:#333;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.progress div{
+
+    height:100%;
+
+    width:{{confidence|default(0)}}%;
+
+    background:linear-gradient(90deg,#00ff99,#00bfff);
+
+}
+
+.footer{
+
+    margin-top:30px;
+
+    color:#ccc;
+
+    font-size:14px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">🌿</div>
+
+<h1>Potato Leaf Disease Detection</h1>
+
+<p class="subtitle">
+CNN Based Deep Learning Classification System
+</p>
+
+<form action="/predict" method="POST" enctype="multipart/form-data">
+
+<input
+type="file"
+id="file"
+name="file"
+accept="image/*"
+required>
+
+<label class="upload" for="file">
+
+<div class="upload-icon">📷</div>
+
+<p>Click to Upload Potato Leaf Image</p>
+
+<small>JPG • PNG • JPEG</small>
+
+</label>
+
+<div class="filename" id="filename">
+No file selected
+</div>
+
+<button type="submit" class="button">
+
+Analyze Leaf
+
+</button>
+
+</form>
+
+{% if prediction %}
+
+<div class="result">
+
+<h2>Prediction Result</h2>
+
+<h3>{{ prediction }}</h3>
+
+<br>
+
+<h4>Confidence : {{ confidence }}%</h4>
+
+<div class="progress">
+
+<div></div>
+
+</div>
+
+</div>
+
+{% endif %}
+
+<div class="footer">
+
+TensorFlow • CNN • Flask • Python
+
+</div>
+
+</div>
+
+<script>
+
+const file=document.getElementById("file");
+
+const filename=document.getElementById("filename");
+
+file.addEventListener("change",function(){
+
+if(this.files.length>0){
+
+filename.innerHTML="Selected : "+this.files[0].name;
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
